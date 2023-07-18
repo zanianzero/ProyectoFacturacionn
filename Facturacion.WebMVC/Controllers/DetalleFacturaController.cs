@@ -9,7 +9,7 @@ namespace Facturacion.WebMVC.Controllers
     public class DetalleFacturaController : Controller
     {
        
-        private string Url = "https://facturasapi20230703113608.azurewebsites.net/api/FactDetalleFacturas";
+        private string Url = "https://facturasapi202307161115.azurewebsites.net/api/FactDetalleFacturas";
 
         private Crud<FactDetalleFactura> crud { get; set; }
         public DetalleFacturaController()
@@ -60,7 +60,7 @@ namespace Facturacion.WebMVC.Controllers
         public ActionResult Edit(int id)
         {
             var datos = crud.Select_ById(Url, id.ToString());
-            return View();
+            return View(datos);
         }
 
         // POST: DetalleFacturaController/Edit/5
@@ -83,7 +83,7 @@ namespace Facturacion.WebMVC.Controllers
         public ActionResult Delete(int id)
         {
             var datos = crud.Select_ById(Url, id.ToString());
-            return View();
+            return View(datos);
         }
 
         // POST: DetalleFacturaController/Delete/5

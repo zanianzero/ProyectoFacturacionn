@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\FacturasAPI20230715183153 - Web Deploy.pubxml.user" />
+    <None Include="Properties\serviceDependencies.FacturasAPI20230715183153 - Web Deploy.json.user" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.aspnetcore.Mvc.NewtonsoftJson" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />

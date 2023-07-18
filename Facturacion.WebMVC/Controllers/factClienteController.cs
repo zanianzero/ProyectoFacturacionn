@@ -10,7 +10,7 @@ namespace Facturacion.WebMVC.Controllers
     {
 
 
-        private string Url = "https://facturasapi20230703113608.azurewebsites.net/api/FactClientes";
+        private string Url = "https://facturasapi202307161115.azurewebsites.net/api/FactClientes";
 
         private Crud<FactCliente> crud { get; set; }
         public factClienteController()
@@ -29,10 +29,10 @@ namespace Facturacion.WebMVC.Controllers
         }
 
         // GET: factClienteController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            var datos = crud.Select_ById(Url, id.ToString());
-            return View();
+            var datos = crud.Select_ById(Url, id);
+            return View(datos);
         }
 
         // GET: factClienteController/Create
@@ -53,53 +53,53 @@ namespace Facturacion.WebMVC.Controllers
             }
             catch
             {
-                return View();
+                return View(datos);
             }
         }
 
         // GET: factClienteController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            var datos = crud.Select_ById(Url, id.ToString());
-            return View();
+            var datos = crud.Select_ById(Url, id);
+            return View(datos);
         }
 
         // POST: factClienteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FactCliente datos)
+        public ActionResult Edit(string id, FactCliente datos)
         {
             try
             {
-                crud.Update(Url, id.ToString(), datos);
+                crud.Update(Url, id, datos);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(datos);
             }
         }
 
         // GET: factClienteController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            var datos = crud.Select_ById(Url, id.ToString());
-            return View();
+            var datos = crud.Select_ById(Url, id);
+            return View(datos);
         }
 
         // POST: factClienteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, FactCliente datos)
+        public ActionResult Delete(string id, FactCliente datos)
         {
             try
             {
-                crud.Delete(Url, id.ToString());    
+                crud.Delete(Url, id);    
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(datos);
             }
         }
     }

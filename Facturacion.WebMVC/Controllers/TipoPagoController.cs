@@ -8,7 +8,7 @@ namespace Facturacion.WebMVC.Controllers
 {
     public class TipoPagoController : Controller
     {
-        private string Url = "https://facturasapi20230703113608.azurewebsites.net/api/FactTipoPagos";
+        private string Url = "https://facturasapi202307161115.azurewebsites.net/api/FactTipoPagos";
 
         private Crud<FactTipoPago> crud { get; set; }
         public TipoPagoController()

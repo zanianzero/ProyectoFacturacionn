@@ -16,5 +16,7 @@ namespace ProyectoFacturacion
         public virtual ICollection<FactCliente> Clientes { get; } = new List<FactCliente>();
 
         public virtual ICollection<FactFacturaCabecera> FacturaCabeceras { get; } = new List<FactFacturaCabecera>();
+
+        public virtual ICollection<FacFacturacion> Facturaciones { get; } = new List<FacFacturacion>();
     }
 }

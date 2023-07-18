@@ -19,4 +19,6 @@ using ProyectoFacturacion;
         public DbSet<ProyectoFacturacion.FactDetalleFactura> FactDetalleFactura { get; set; } = default!;
 
         public DbSet<ProyectoFacturacion.FactCliente> FactCliente { get; set; } = default!;
+
+        public DbSet<ProyectoFacturacion.FacFacturacion> Facturacion { get; set; } = default!;
     }

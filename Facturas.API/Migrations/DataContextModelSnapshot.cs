@@ -14,7 +14,33 @@ namespace Facturas.API.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
+
+            modelBuilder.Entity("ProyectoFacturacion.FacFacturacion", b =>
+                {
+                    b.Property<int>("IdFactura")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FactDetalleFacturaIdDetalleFactura")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FactFacturaCabeceraIdFacturaCabecera")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("TipoPagoIdTipoPago")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("IdFactura");
+
+                    b.HasIndex("FactDetalleFacturaIdDetalleFactura");
+
+                    b.HasIndex("FactFacturaCabeceraIdFacturaCabecera");
+
+                    b.HasIndex("TipoPagoIdTipoPago");
+
+                    b.ToTable("Facturacion");
+                });
 
             modelBuilder.Entity("ProyectoFacturacion.FactCliente", b =>
                 {
@@ -142,6 +168,27 @@ namespace Facturas.API.Migrations
                     b.ToTable("FactTipoPago");
                 });
 
+            modelBuilder.Entity("ProyectoFacturacion.FacFacturacion", b =>
+                {
+                    b.HasOne("ProyectoFacturacion.FactDetalleFactura", "FactDetalleFactura")
+                        .WithMany("Facturacion")
+                        .HasForeignKey("FactDetalleFacturaIdDetalleFactura");
+
+                    b.HasOne("ProyectoFacturacion.FactFacturaCabecera", "FactFacturaCabecera")
+                        .WithMany("Facturacion")
+                        .HasForeignKey("FactFacturaCabeceraIdFacturaCabecera");
+
+                    b.HasOne("ProyectoFacturacion.FactTipoPago", "TipoPago")
+                        .WithMany("Facturaciones")
+                        .HasForeignKey("TipoPagoIdTipoPago");
+
+                    b.Navigation("FactDetalleFactura");
+
+                    b.Navigation("FactFacturaCabecera");
+
+                    b.Navigation("TipoPago");
+                });
+
             modelBuilder.Entity("ProyectoFacturacion.FactCliente", b =>
                 {
                     b.HasOne("ProyectoFacturacion.FactTipoPago", "TipoPago")
@@ -180,9 +227,16 @@ namespace Facturas.API.Migrations
                     b.Navigation("FacturaCabeceras");
                 });
 
+            modelBuilder.Entity("ProyectoFacturacion.FactDetalleFactura", b =>
+                {
+                    b.Navigation("Facturacion");
+                });
+
             modelBuilder.Entity("ProyectoFacturacion.FactFacturaCabecera", b =>
                 {
                     b.Navigation("DetallesFactura");
+
+                    b.Navigation("Facturacion");
                 });
 
             modelBuilder.Entity("ProyectoFacturacion.FactTipoPago", b =>
@@ -190,6 +244,8 @@ namespace Facturas.API.Migrations
                     b.Navigation("Clientes");
 
                     b.Navigation("FacturaCabeceras");
+
+                    b.Navigation("Facturaciones");
                 });
 #pragma warning restore 612, 618
         }

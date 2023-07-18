@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ProyectoFacturacion.FacFacturacion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFactura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.IdFacturaCabecera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.FechaFactura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.Subtotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.Iva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.NumeroFactura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.IdentificacionCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FactFacturaCabecera.IdTipo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFactura)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.IdFacturaCabecera)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.FechaFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.Subtotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.Iva)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.NumeroFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.IdentificacionCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FactFacturaCabecera.IdTipo)
+                </td>
+            <td>
+                    @Html.ActionLink("Details", "Details", new { id=item.IdFactura }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.IdFactura })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

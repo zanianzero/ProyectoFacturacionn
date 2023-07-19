@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ProyectoFacturacion.productos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_valor_iva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_costo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_pvp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_imagen)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cat_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cat_nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pro_stock)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_valor_iva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_costo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_pvp)
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.pro_imagen)" style="width:100px;height:70px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cat_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cat_nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pro_stock)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

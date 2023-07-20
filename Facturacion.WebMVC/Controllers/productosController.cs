@@ -67,8 +67,8 @@ namespace Facturacion.WebMVC.Controllers
                     {
                         var response = httpClient.GetAsync(Url).Result;
                         response.EnsureSuccessStatusCode();
-                        var data = response.Content.ReadAsStringAsync().Result;
-                        var productosList = JsonConvert.DeserializeObject<List<productos>>(data);
+                        var dato = response.Content.ReadAsStringAsync().Result;
+                        var productosList = JsonConvert.DeserializeObject<List<productos>>(dato);
 
                         // Insertar cada producto de la API externa en la base de datos local
                         _context.AddRange(productosList); // Corregir "product" a "Productos"

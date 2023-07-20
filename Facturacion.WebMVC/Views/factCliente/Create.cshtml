@@ -14,45 +14,57 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Identificacion" class="control-label"></label>
-                <input asp-for="Identificacion" class="form-control" />
+                <input id="identificacion" asp-for="Identificacion" class="form-control" pattern="[0-9]*" maxlength="13" title="Solo se permiten números y máximo 13 dígitos" required />
                 <span asp-validation-for="Identificacion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-control" oninput="validarNombre(event)" required />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
+                <input asp-for="FechaNacimiento" class="form-control" required />
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
+                <input asp-for="Direccion" class="form-control" required />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" maxlength="10"  oninput="validarTelefono(event)" required />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CorreoElectronico" class="control-label"></label>
-                <input asp-for="CorreoElectronico" class="form-control" />
+                <input asp-for="CorreoElectronico" class="form-control" required />
                 <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
-                <select asp-for="Estado" class="form-control">
+                <select asp-for="Estado" class="form-control" required>
+                    <option value="" disabled selected>-- Seleccione una opción --</option>
                     <option value="True">True</option>
                     <option value="False">False</option>
                 </select>
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
+
+
+
+
+
+
+
+
+
+
+
             <div class="form-group">
                 <label asp-for="IdTipo" class="control-label"></label>
-                <input asp-for="IdTipo" class="form-control" />
+                <input asp-for="IdTipo" class="form-control" required />
                 <span asp-validation-for="IdTipo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,4 +80,52 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        // Accedemos al elemento input de identificacion
+        const inputIdentificacion = document.getElementById('identificacion');
+
+        // Función para validar el campo identificacion
+        function validarIdentificacion(event) {
+            const regex = /^[0-9]{1,13}$/; // Expresión regular para números de máximo 13 dígitos
+            const valor = event.target.value;
+
+            // Si el valor no cumple con la expresión regular, limpiamos el campo
+            if (!regex.test(valor)) {
+                event.target.value = '';
+            }
+        }
+
+        // Agregamos el evento 'input' al campo de identificacion
+        inputIdentificacion.addEventListener('input', validarIdentificacion);
+    </script>
+
+
+
+    <script>
+        function validarNombre(event) {
+            const input = event.target;
+            const soloLetras = /^[A-Za-z\s]+$/;
+            const valor = input.value.trim();
+
+            if (!soloLetras.test(valor)) {
+                input.value = valor.replace(/[^A-Za-z\s]+/g, ''); // Eliminar caracteres no válidos
+            }
+        }
+    </script>
+    <script>
+        function validarTelefono(event) {
+            const input = event.target;
+            const soloNumeros = /^[0-9]+$/;
+            const valor = input.value.trim();
+
+            if (!soloNumeros.test(valor)) {
+                input.value = valor.replace(/[^0-9]+/g, ''); // Eliminar caracteres no válidos
+            }
+        }
+    </script>
+
+
+
 }

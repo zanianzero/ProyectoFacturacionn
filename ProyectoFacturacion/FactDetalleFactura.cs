@@ -23,5 +23,6 @@ namespace ProyectoFacturacion
         public int? IdFacturaCabecera { get; set; }
         public virtual FactFacturaCabecera? FacturaCabecera { get; set; }
         public virtual ICollection<FacFacturacion> Facturacion { get; } = new List<FacFacturacion>();
+        public virtual productos? Productos { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Facturas.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230720013944_v11")]
+    partial class v11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
@@ -133,12 +136,17 @@ namespace Facturas.API.Migrations
                     b.Property<string>("NombreProducto")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("Productospro_id")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double?>("Subtotal")
                         .HasColumnType("REAL");
 
                     b.HasKey("IdDetalleFactura");
 
                     b.HasIndex("FacturaCabeceraIdFacturaCabecera");
+
+                    b.HasIndex("Productospro_id");
 
                     b.ToTable("FactDetalleFactura");
                 });
@@ -280,7 +288,13 @@ namespace Facturas.API.Migrations
                         .WithMany("DetallesFactura")
                         .HasForeignKey("FacturaCabeceraIdFacturaCabecera");
 
+                    b.HasOne("ProyectoFacturacion.productos", "Productos")
+                        .WithMany("DetallesFactura")
+                        .HasForeignKey("Productospro_id");
+
                     b.Navigation("FacturaCabecera");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("ProyectoFacturacion.FactFacturaCabecera", b =>
@@ -322,6 +336,11 @@ namespace Facturas.API.Migrations
                     b.Navigation("FacturaCabeceras");
 
                     b.Navigation("Facturaciones");
+                });
+
+            modelBuilder.Entity("ProyectoFacturacion.productos", b =>
+                {
+                    b.Navigation("DetallesFactura");
                 });
 #pragma warning restore 612, 618
         }

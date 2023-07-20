@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Facturacion.UAPI;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProyectoFacturacion;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Facturacion.WebMVC.Controllers
 {
@@ -16,6 +18,12 @@ namespace Facturacion.WebMVC.Controllers
             httpClient.DefaultRequestHeaders.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk3OTg2NTcsImV4cCI6MTY4OTg4NTA1N30.NP8xrg50oQbCygS-HJAu1rSSrz4EECKzGT96c31ZQKw");
             return httpClient;
         }
+
+        private Crud<productos> crud { get; set; }
+        public productosController()
+        {
+            crud = new Crud<productos>();
+        }
         // GET: productosController
         public ActionResult Index()
         {
@@ -23,8 +31,8 @@ namespace Facturacion.WebMVC.Controllers
             {
                 var response = httpClient.GetAsync(Url).Result;
                 response.EnsureSuccessStatusCode();
-                var data = response.Content.ReadAsStringAsync().Result;
-                var datos = JsonConvert.DeserializeObject<List<productos>>(data);
+                var dato = response.Content.ReadAsStringAsync().Result;
+                var datos = JsonConvert.DeserializeObject<List<productos>>(dato);
                 return View(datos);
             }
         }
@@ -44,16 +52,39 @@ namespace Facturacion.WebMVC.Controllers
         // POST: productosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(productos datos)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Obtener los datos de la API externa
+                    using (HttpClient httpClient = GetHttpClient())
+                    {
+                        var response = httpClient.GetAsync(Url).Result;
+                        response.EnsureSuccessStatusCode();
+                        var dato = response.Content.ReadAsStringAsync().Result;
+                        var productosList = JsonConvert.DeserializeObject<List<productos>>(dato);
+
+                        // Insertar cada producto de la API externa en la API local
+                        foreach (var product in productosList)
+                        {
+                            crud.Insert("https://localhost:7161/api/productos", datos);
+                        }
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier excepción que pueda ocurrir durante la transferencia de datos
+                    // Por ejemplo, registrar el error o mostrar un mensaje de error al usuario.
+                    return View(datos);
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            // Si el ModelState no es válido, regresar a la vista "Create" con los datos proporcionados
+            return View(datos);
         }
 
         // GET: productosController/Edit/5

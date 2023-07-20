@@ -21,5 +21,7 @@ namespace ProyectoFacturacion
         public int cat_id { get; set; }
         public string cat_nombre { get; set; }
         public int pro_stock { get; set; }
+
+        public virtual ICollection<FactDetalleFactura> FactDetalleFacturas  { get; } = new List<FactDetalleFactura>();
     }
 }

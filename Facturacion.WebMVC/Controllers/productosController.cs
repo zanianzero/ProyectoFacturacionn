@@ -1,14 +1,17 @@
 ﻿using Facturacion.UAPI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProyectoFacturacion;
+using SQLitePCL;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Facturacion.WebMVC.Controllers
 {
     public class productosController : Controller
     {
+
 
         private string Url = "https://inventarioproductos.onrender.com/productos";
 
@@ -19,11 +22,12 @@ namespace Facturacion.WebMVC.Controllers
             return httpClient;
         }
 
+        private DbContext _context; // Reemplaza "ApplicationDbContext" por el contexto de tu base de datos local
+
+       
+
         private Crud<productos> crud { get; set; }
-        public productosController()
-        {
-            crud = new Crud<productos>();
-        }
+      
         // GET: productosController
         public ActionResult Index()
         {
@@ -63,14 +67,12 @@ namespace Facturacion.WebMVC.Controllers
                     {
                         var response = httpClient.GetAsync(Url).Result;
                         response.EnsureSuccessStatusCode();
-                        var dato = response.Content.ReadAsStringAsync().Result;
-                        var productosList = JsonConvert.DeserializeObject<List<productos>>(dato);
+                        var data = response.Content.ReadAsStringAsync().Result;
+                        var productosList = JsonConvert.DeserializeObject<List<productos>>(data);
 
-                        // Insertar cada producto de la API externa en la API local
-                        foreach (var product in productosList)
-                        {
-                            crud.Insert("https://localhost:7161/api/productos", datos);
-                        }
+                        // Insertar cada producto de la API externa en la base de datos local
+                        _context.AddRange(productosList); // Corregir "product" a "Productos"
+                        _context.SaveChanges();
                     }
 
                     return RedirectToAction(nameof(Index));

@@ -4,13 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    table {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    th {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .btn {
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+</style>
+
+<h1 class="elegant-title">Detalles Facturas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.IdDetalleFactura)
@@ -34,34 +91,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDetalleFactura)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subtotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Productos.pro_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Productos.pro_nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdFacturaCabecera)
-            </td>
-            <td>
-                    @Html.ActionLink("Details", "Details", new { id=item.IdDetalleFactura }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.IdDetalleFactura })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdDetalleFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subtotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Productos.pro_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Productos.pro_nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdFacturaCabecera)
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        @Html.ActionLink("Detalles", "Details", new { id = item.IdDetalleFactura }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdDetalleFactura }, new { @class = "btn btn-danger btn-sm" })
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
-
- 

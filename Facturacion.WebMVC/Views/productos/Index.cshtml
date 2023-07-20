@@ -4,87 +4,147 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    table {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+    th {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    img {
+        width: 100px;
+        height: 70px;
+    }
+
+    .btn {
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+</style>
+
+<h1 class="elegant-title">Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">CREAR</a>
 </p>
-<table class="table">
-    <thead>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.pro_id)
+            <th>           
+               ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_nombre)
+                NOMBRE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_descripcion)
+               DESCRIPCION
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_valor_iva)
+                VALOR IVA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_costo)
+                COSTO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_pvp)
+                PVP
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_imagen)
+                IMAGEN
 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cat_id)
+                ID CATEGORIA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cat_nombre)
+                NOMBRE CATEGORIA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pro_stock)
+                STOK
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_valor_iva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_costo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_pvp)
-            </td>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.pro_imagen)" style="width:100px;height:70px" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cat_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cat_nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pro_stock)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_valor_iva)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_costo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_pvp)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.pro_imagen)" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cat_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cat_nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pro_stock)
+                </td>
+                
+            </tr>
+        }
     </tbody>
 </table>

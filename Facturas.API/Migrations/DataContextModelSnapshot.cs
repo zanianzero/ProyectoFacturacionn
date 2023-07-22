@@ -127,11 +127,14 @@ namespace Facturas.API.Migrations
                     b.Property<int?>("IdFacturaCabecera")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("IdProducto")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("IdProducto")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NombreProducto")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("Productospro_id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("Subtotal")
                         .HasColumnType("REAL");
@@ -139,6 +142,8 @@ namespace Facturas.API.Migrations
                     b.HasKey("IdDetalleFactura");
 
                     b.HasIndex("FacturaCabeceraIdFacturaCabecera");
+
+                    b.HasIndex("Productospro_id");
 
                     b.ToTable("FactDetalleFactura");
                 });
@@ -280,7 +285,13 @@ namespace Facturas.API.Migrations
                         .WithMany("DetallesFactura")
                         .HasForeignKey("FacturaCabeceraIdFacturaCabecera");
 
+                    b.HasOne("ProyectoFacturacion.productos", "Productos")
+                        .WithMany("FactDetalleFacturas")
+                        .HasForeignKey("Productospro_id");
+
                     b.Navigation("FacturaCabecera");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("ProyectoFacturacion.FactFacturaCabecera", b =>
@@ -322,6 +333,11 @@ namespace Facturas.API.Migrations
                     b.Navigation("FacturaCabeceras");
 
                     b.Navigation("Facturaciones");
+                });
+
+            modelBuilder.Entity("ProyectoFacturacion.productos", b =>
+                {
+                    b.Navigation("FactDetalleFacturas");
                 });
 #pragma warning restore 612, 618
         }

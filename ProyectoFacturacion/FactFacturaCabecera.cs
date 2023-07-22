@@ -25,8 +25,8 @@ namespace ProyectoFacturacion
 
         public virtual FactCliente? Cliente { get; set; }
 
-        public virtual ICollection<FactDetalleFactura> DetallesFactura { get; } = new List<FactDetalleFactura>();
-        public virtual ICollection<FacFacturacion> Facturacion { get; } = new List<FacFacturacion>();
+        public List<FactDetalleFactura> DetallesFactura { get; set; }
+        //public virtual ICollection<FacFacturacion> Facturacion { get; } = new List<FacFacturacion>();
         public virtual FactTipoPago? TipoPago { get; set; }
     }
 }

@@ -10,7 +10,25 @@ namespace Facturacion.WebMVC.Controllers
     {
        
         private string Url = "https://facturasapi202307161115.azurewebsites.net/api/FactDetalleFacturas";
+        private string Url1 = "https://facturasapi202307161115.azurewebsites.net/api/productos";
 
+        public  ProyectoFacturacion.productos[] Productos()
+        {
+            var api = new System.Net.WebClient();
+            api.Headers.Add("Content-Type", "application/json");
+            api.Headers.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk5NzAwOTAsImV4cCI6MTY5MDA1NjQ5MH0.M-ufLXy44Bk7_M8UKD-5pVm1fZJ-TTH9Ffi517vqBHQ");
+            var json = api.DownloadString(Url1);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<ProyectoFacturacion.productos[]>(json);
+        }
+
+        public  ProyectoFacturacion.productos ProductoElegido()
+        {
+            var api = new System.Net.WebClient();
+            api.Headers.Add("Content-Type", "application/json");
+            api.Headers.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk5NzAwOTAsImV4cCI6MTY5MDA1NjQ5MH0.M-ufLXy44Bk7_M8UKD-5pVm1fZJ-TTH9Ffi517vqBHQ");
+            var json = api.DownloadString(Url1);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<ProyectoFacturacion.productos>(json);
+        }
         private Crud<FactDetalleFactura> crud { get; set; }
         public DetalleFacturaController()
         {

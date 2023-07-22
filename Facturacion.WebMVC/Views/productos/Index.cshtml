@@ -1,9 +1,33 @@
 ﻿@model IEnumerable<ProyectoFacturacion.productos>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos";
 }
 
+<h1>@ViewData["Title"]</h1>
+
+<!-- Agregar un formulario oculto para enviar la solicitud POST al controlador -->
+<form id="transferirForm" method="post" action="@Url.Action("TransferirDatos")">
+    <input type="submit" value="Transferir Datos" />
+</form>
+
+<!-- Script para enviar la solicitud POST al controlador cuando se haga clic en el botón -->
+<script>
+    document.getElementById("transferirForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        fetch("@Url.Action("TransferirDatos")", {
+            method: "POST",
+        }).then(response => {
+            if (response.ok) {
+                location.reload(); // Recargar la página después de la transferencia de datos
+            } else {
+                console.error("Error al transferir datos");
+            }
+        }).catch(error => {
+            console.error("Error al transferir datos: ", error);
+        });
+    });
+</script>
 <style>
     body {
         background-color: #f8f9fa;
@@ -65,8 +89,6 @@
             border-color: #bd2130;
         }
 </style>
-
-<h1 class="elegant-title">Index</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">CREAR</a>

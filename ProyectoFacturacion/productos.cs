@@ -11,7 +11,7 @@ namespace ProyectoFacturacion
     public class productos
     {
         [Key]
-         public int pro_id { get; set; }
+        public int pro_id { get; set; }
         public string pro_nombre { get; set; }
         public string pro_descripcion { get; set; }
         public double pro_valor_iva { get; set; }

@@ -16,13 +16,12 @@ namespace ProyectoFacturacion
 
         public double? Subtotal { get; set; }
 
-        public string? IdProducto { get; set; }
+        public int? IdProducto { get; set; }
 
         public string? NombreProducto { get; set; }
 
         public int? IdFacturaCabecera { get; set; }
         public virtual FactFacturaCabecera? FacturaCabecera { get; set; }
         public virtual ICollection<FacFacturacion> Facturacion { get; } = new List<FacFacturacion>();
-        public virtual productos? Productos { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProyectoFacturacion;
 using SQLitePCL;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Facturacion.WebMVC.Controllers
@@ -15,31 +17,75 @@ namespace Facturacion.WebMVC.Controllers
 
         private string Url = "https://inventarioproductos.onrender.com/productos";
 
+        private string Url1 = "https://facturasapi202307161115.azurewebsites.net/api/productos";
         private HttpClient GetHttpClient()
         {
             HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk3OTg2NTcsImV4cCI6MTY4OTg4NTA1N30.NP8xrg50oQbCygS-HJAu1rSSrz4EECKzGT96c31ZQKw");
+            httpClient.DefaultRequestHeaders.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk5NzAwOTAsImV4cCI6MTY5MDA1NjQ5MH0.M-ufLXy44Bk7_M8UKD-5pVm1fZJ-TTH9Ffi517vqBHQ");
             return httpClient;
-        }
-
-        private DbContext _context; // Reemplaza "ApplicationDbContext" por el contexto de tu base de datos local
-
-       
+        }    
 
         private Crud<productos> crud { get; set; }
-      
-        // GET: productosController
-        public ActionResult Index()
+
+
+        public productosController()
         {
-            using (HttpClient httpClient = GetHttpClient())
-            {
-                var response = httpClient.GetAsync(Url).Result;
-                response.EnsureSuccessStatusCode();
-                var dato = response.Content.ReadAsStringAsync().Result;
-                var datos = JsonConvert.DeserializeObject<List<productos>>(dato);
-                return View(datos);
-            }
+
+            crud = new Crud<productos>();
         }
+
+        // ...otros métodos de controlador...
+
+        public async Task<IActionResult> Index()
+        {
+            var datos=crud.Select(Url1); // Obtener los productos desde la base de datos local o donde sea
+           
+                return View(datos);
+            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TransferirDatos()
+        {
+           try
+            {
+
+                // Crear un cliente HTTP
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    // Agregar el token de autenticación en el encabezado de autorización
+                    string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODk5NzAwOTAsImV4cCI6MTY5MDA1NjQ5MH0.M-ufLXy44Bk7_M8UKD-5pVm1fZJ-TTH9Ffi517vqBHQ";
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    // Obtener los datos de la API externa
+                    HttpResponseMessage response = await httpClient.GetAsync(Url);
+                    response.EnsureSuccessStatusCode();
+                    string data = await response.Content.ReadAsStringAsync();
+
+                    // Deserializar los datos en una lista de productos
+                    List<productos> productosList = JsonConvert.DeserializeObject<List<productos>>(data);
+
+                    // Enviar los datos a la base de datos local mediante una solicitud HTTP POST
+                    HttpContent content = new StringContent(JsonConvert.SerializeObject(productosList));
+                    content.Headers.ContentType.MediaType = "application/json";
+
+                    using (var localHttpClient = new HttpClient())
+                    {
+                        // Realizar la solicitud HTTP POST a la API local
+                        HttpResponseMessage postResponse = await localHttpClient.PostAsync(Url1, content);
+                        postResponse.EnsureSuccessStatusCode();
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir durante la transferencia de datos
+                // Por ejemplo, registrar el error o mostrar un mensaje de error al usuario.
+                return View("Error");
+            }
+       }
 
         // GET: productosController/Details/5
         public ActionResult Details(int id)
@@ -69,10 +115,9 @@ namespace Facturacion.WebMVC.Controllers
                         response.EnsureSuccessStatusCode();
                         var dato = response.Content.ReadAsStringAsync().Result;
                         var productosList = JsonConvert.DeserializeObject<List<productos>>(dato);
-
+                        
                         // Insertar cada producto de la API externa en la base de datos local
-                        _context.AddRange(productosList); // Corregir "product" a "Productos"
-                        _context.SaveChanges();
+                       
                     }
 
                     return RedirectToAction(nameof(Index));
